@@ -78,8 +78,12 @@ WSGI_APPLICATION = 'SCA.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'u882458043_sca',
+        'USER': 'u882458043_dev',                       # Usuario de la base de datos
+        'PASSWORD': 'Nojoda11',                # Contraseña del usuario
+        'HOST': 'srv1661.hstgr.io',        # IP o dominio del servidor remoto
+        'PORT': '3306',
     }
 }
 
