@@ -6,4 +6,3 @@ from .serializers import AreaDecisionSerializer
 class AreaDecisionViewSet(viewsets.ModelViewSet):
     queryset = AreaDecision.objects.all()
     serializer_class = AreaDecisionSerializer
-    
