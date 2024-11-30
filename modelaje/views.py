@@ -49,4 +49,3 @@ def delete_area(request, pk):
 
     area.delete()
     return Response({'message': 'Area deleted successfully'},status=status.HTTP_204_NO_CONTENT)
-
