@@ -10,5 +10,3 @@ class AreaDecision(models.Model):
     rotulo = models.CharField(max_length=7, unique=True)
     title = models.CharField(max_length=100)
     description = models.TextField()
-
-
