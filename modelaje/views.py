@@ -18,6 +18,8 @@ def get_area(request, pk):
         area = AreaDecision.objects.get(pk=pk)
     except AreaDecision.DoesNotExist:
         return Response({'error': 'Area not found'}, status=status.HTTP_404_NOT_FOUND)
+    serializer = AreaDecisionSerializer(area)
+    return Response(serializer.data)
 
 @api_view(['POST'])
 def create_area(request):
