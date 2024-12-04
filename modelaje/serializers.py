@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import AreaDecision
+from .models import AreaDecision, OpcionDecision
 
 class AreaDecisionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,3 +10,8 @@ class AreaDecisionSerializer(serializers.ModelSerializer):
         if len(valor) != 7:
             raise serializers.ValidationError("El valor debe ser un 7 caracteres")
         return valor
+
+class OpcionDecisionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OpcionDecision
+        fields = '__all__'
