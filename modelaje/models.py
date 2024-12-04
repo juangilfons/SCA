@@ -10,5 +10,8 @@ class AreaDecision(models.Model):
     rotulo = models.CharField(max_length=7, unique=True)
     title = models.CharField(max_length=100)
     description = models.TextField()
+    related_areas = models.ManyToManyField('self', blank=True, symmetrical=True)
+    is_important = models.BooleanField(default=False)
 
-
+    def __str__(self):
+        return self.title
