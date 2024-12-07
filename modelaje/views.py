@@ -85,3 +85,5 @@ def delete_opcion(request, pk):
         return Response({'error': 'Option not found'}, status=status.HTTP_404_NOT_FOUND)
     opcion.delete()
     return Response({'message': 'Option deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+
+# comment
