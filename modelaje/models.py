@@ -18,7 +18,12 @@ class AreaDecision(models.Model):
 
 class OpcionDecision(models.Model):
     description = models.CharField(max_length=100)
-    area_decision = models.ForeignKey(AreaDecision, on_delete=models.CASCADE)
+    area_decision = models.ForeignKey(AreaDecision, on_delete=models.CASCADE, related_name="opciondecision_set")
 
     def __str__(self):
         return self.description
+
+class AreaComparacion(models.Model):
+    rotulo = models.CharField(max_length=7, unique=True)
+    title = models.CharField(max_length=100)
+
