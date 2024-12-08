@@ -2,9 +2,15 @@ from rest_framework import serializers
 from .models import AreaDecision, OpcionDecision
 
 class AreaDecisionSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField()
+    rotulo = serializers.CharField()  # Maps directly
+    area = serializers.CharField(source='title')  # Maps `title` to `area`
+    description = serializers.CharField()  # Maps directly
+    is_important = serializers.BooleanField()  # Maps directly
+
     class Meta:
         model = AreaDecision
-        fields = '__all__'
+        fields = ['id', 'rotulo', 'area', 'description', 'is_important']
 
     def validar_rotulo(self, valor):
         if len(valor) != 7:
