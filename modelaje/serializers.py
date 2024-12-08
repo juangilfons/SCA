@@ -32,11 +32,19 @@ class AreaDecisionSerializer(serializers.ModelSerializer):
 
 class OpcionDecisionSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
-    descripcion = serializers.CharField(source='description')
-    cod_area = serializers.ReadOnlyField(source='area_decision.id')
+    descripcion = serializers.CharField(source='description')  # Maps `description` to `descripcion`
+    cod_area = serializers.ReadOnlyField(source='area_decision.id')  # Read-only, derived from AreaDecision
+
     class Meta:
         model = OpcionDecision
         fields = ['id', 'descripcion', 'cod_area']
+
+    def create(self, validated_data):
+        # Map 'descripcion' back to 'description'
+        description = validated_data.pop('description')
+        area_decision = validated_data.get('area_decision')
+
+        return OpcionDecision.objects.create(description=description, area_decision=area_decision)
 
 class AreaComparacionSerializer(serializers.ModelSerializer):
     class Meta:

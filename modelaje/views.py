@@ -71,10 +71,22 @@ def get_opciones_de_area(request, area_pk):
 
 @api_view(['POST'])
 def create_opcion(request):
-    serializer = OpcionDecisionSerializer(data=request.data)
+    data = request.data.copy()
+    cod_area = data.get('cod_area')
+    if not cod_area:
+        return Response({'error': 'cod_area is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        area_decision = AreaDecision.objects.get(id=cod_area)
+    except AreaDecision.DoesNotExist:
+        return Response({'error': 'AreaDecision with the given cod_area does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+    data['area_decision'] = area_decision.id
+
+    serializer = OpcionDecisionSerializer(data=data)
     if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        opcion = serializer.save(area_decision=area_decision)  # Save the linked instance
+        return Response(OpcionDecisionSerializer(opcion).data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
