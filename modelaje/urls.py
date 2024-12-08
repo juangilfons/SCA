@@ -12,4 +12,9 @@ urlpatterns = [
     path('api/opciones/<int:area_pk>/', views.get_opciones_de_area, name='get_opciones_area'),
     path('api/opcion/create/', views.create_opcion, name='create_opcion'),
     path('api/opcion/delete/<int:pk>/', views.delete_opcion, name='delete_opcion'),
+
+    path('api/comparaciones/', views.get_comparaciones, name='get_comparaciones'),
+    path('api/comparacion/create/', views.create_comparacion, name='create_comparacion'),
+    path('api,comparacion/update/<int:pk>/', views.update_comparacion, name='update_comparacion'),
+    path('api/comparacion/delete/<int:pk>/', views.delete_comparacion, name='delete_comparacion'),
 ]

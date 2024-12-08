@@ -2,6 +2,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
+from django.shortcuts import get_object_or_404
+
 from .models import AreaDecision, OpcionDecision, AreaComparacion
 from .serializers import AreaDecisionSerializer, OpcionDecisionSerializer, AreaComparacionSerializer
 
@@ -32,12 +34,9 @@ def create_area(request):
 
 @api_view(['PUT', 'PATCH'])
 def update_area(request, pk):
-    try:
-        area = AreaDecision.objects.get(pk=pk)
-    except AreaDecision.DoesNotExist:
-        return Response({'error': 'Area not found'}, status=status.HTTP_404_NOT_FOUND)
+    area = get_object_or_404(AreaDecision, pk=pk)
 
-    serializer = AreaDecisionSerializer(area=area, data=request.data, partial=(request.method == 'PATCH'))
+    serializer = AreaDecisionSerializer(instance=area, data=request.data, partial=(request.method == 'PATCH'))
 
     if serializer.is_valid():
         serializer.save()
@@ -106,3 +105,32 @@ def get_comparaciones(request):
     comparaciones = AreaComparacion.objects.all()
     serializer = AreaComparacionSerializer(comparaciones, many=True)
     return Response(serializer.data)
+
+@api_view(['POST'])
+def create_comparacion(request):
+    serializer = AreaComparacionSerializer(data=request.data)
+    if serializer.is_valid():
+        instance = serializer.save()
+        return Response(AreaComparacionSerializer(instance).data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT', 'PATCH'])
+def update_comparacion(request, pk):
+    comparacion = get_object_or_404(AreaComparacion, pk=pk)
+    serializer = AreaComparacionSerializer(instance=comparacion, data=request.data, partial=(request.method == 'PATCH'))
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def delete_comparacion(request, pk):
+    try:
+        comparacion = AreaComparacion.objects.get(pk=pk)
+    except AreaComparacion.DoesNotExist:
+        return Response({'error': 'Area not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    comparacion.delete()
+    return Response({'message': 'Area deleted successfully'},status=status.HTTP_204_NO_CONTENT)

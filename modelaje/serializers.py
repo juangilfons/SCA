@@ -47,6 +47,11 @@ class OpcionDecisionSerializer(serializers.ModelSerializer):
         return OpcionDecision.objects.create(description=description, area_decision=area_decision)
 
 class AreaComparacionSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField()
+    label = serializers.CharField(source='rotulo')
+    comparisonArea = serializers.CharField(source='title')
+    order = serializers.CharField()
+
     class Meta:
         model = AreaComparacion
-        fields = ['id', 'rotulo', 'title', 'order']
+        fields = ['id', 'label', 'comparisonArea', 'order']
