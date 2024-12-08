@@ -2,8 +2,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from .models import AreaDecision, OpcionDecision
-from .serializers import AreaDecisionSerializer, OpcionDecisionSerializer
+from .models import AreaDecision, OpcionDecision, AreaComparacion
+from .serializers import AreaDecisionSerializer, OpcionDecisionSerializer, AreaComparacionSerializer
 
 
 @api_view(['GET'])
@@ -25,8 +25,9 @@ def get_area(request, pk):
 def create_area(request):
     serializer = AreaDecisionSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # Save the validated data to create a model instance
+        instance = serializer.save()
+        return Response(AreaDecisionSerializer(instance).data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT', 'PATCH'])
@@ -86,4 +87,10 @@ def delete_opcion(request, pk):
     opcion.delete()
     return Response({'message': 'Option deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
 
-# comment
+# Areas de Comparación
+
+@api_view(['GET'])
+def get_comparaciones(request):
+    comparaciones = AreaComparacion.objects.all()
+    serializer = AreaComparacionSerializer(comparaciones, many=True)
+    return Response(serializer.data)

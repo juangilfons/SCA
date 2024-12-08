@@ -26,4 +26,5 @@ class OpcionDecision(models.Model):
 class AreaComparacion(models.Model):
     rotulo = models.CharField(max_length=7, unique=True)
     title = models.CharField(max_length=100)
+    order = models.IntegerField(default=0)
 

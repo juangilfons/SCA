@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from .models import AreaDecision, OpcionDecision
+from .models import AreaDecision, OpcionDecision, AreaComparacion
 
 class AreaDecisionSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
-    rotulo = serializers.CharField()  # Maps directly
+    rotulo = serializers.CharField()
     area = serializers.CharField(source='title')  # Maps `title` to `area`
-    description = serializers.CharField()  # Maps directly
-    is_important = serializers.BooleanField()  # Maps directly
+    description = serializers.CharField()
+    is_important = serializers.BooleanField(required=False, default=False)
     opciones = serializers.SerializerMethodField()
 
     class Meta:
@@ -18,8 +18,15 @@ class AreaDecisionSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("El valor debe ser un 7 caracteres")
         return valor
 
+    def create(self, validated_data):
+        # Map the `title` field from `area`
+        title = validated_data.pop('title')
+        validated_data['title'] = title
+
+        # Create the AreaDecision instance
+        return AreaDecision.objects.create(**validated_data)
+
     def get_opciones(self, obj):
-        # Get all related OpcionDecision objects for the AreaDecision
         opciones = obj.opciondecision_set.all()
         return OpcionDecisionSerializer(opciones, many=True).data
 
@@ -30,3 +37,8 @@ class OpcionDecisionSerializer(serializers.ModelSerializer):
     class Meta:
         model = OpcionDecision
         fields = ['id', 'descripcion', 'cod_area']
+
+class AreaComparacionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AreaComparacion
+        fields = ['id', 'rotulo', 'title', 'order']
