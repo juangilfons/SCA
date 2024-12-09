@@ -4,7 +4,7 @@ from .models import AreaDecision, OpcionDecision, AreaComparacion
 class AreaDecisionSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     rotulo = serializers.CharField()
-    area = serializers.CharField(source='title')  # Maps `title` to `area`
+    area = serializers.CharField(source='title')
     description = serializers.CharField()
     is_important = serializers.BooleanField(required=False, default=False)
     opciones = serializers.SerializerMethodField()
@@ -15,7 +15,7 @@ class AreaDecisionSerializer(serializers.ModelSerializer):
 
     def validar_rotulo(self, valor):
         if len(valor) != 7:
-            raise serializers.ValidationError("El valor debe ser un 7 caracteres")
+            raise serializers.ValidationError("El valor debe ser de 7 caracteres")
         return valor
 
     def create(self, validated_data):

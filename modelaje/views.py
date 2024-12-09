@@ -7,7 +7,6 @@ from django.shortcuts import get_object_or_404
 from .models import AreaDecision, OpcionDecision, AreaComparacion
 from .serializers import AreaDecisionSerializer, OpcionDecisionSerializer, AreaComparacionSerializer
 
-
 @api_view(['GET'])
 def get_areas(request):
     areas = AreaDecision.objects.all()
@@ -33,7 +32,6 @@ def get_area(request, pk):
 def create_area(request):
     serializer = AreaDecisionSerializer(data=request.data)
     if serializer.is_valid():
-        # Save the validated data to create a model instance
         instance = serializer.save()
         return Response(AreaDecisionSerializer(instance).data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
