@@ -14,6 +14,11 @@ def get_areas(request):
     serializer = AreaDecisionSerializer(areas, many=True)
     return Response(serializer.data)
 
+def get_important_areas(request):
+    areas = AreaComparacion.objects.filter(is_important=True)
+    serializer = AreaComparacionSerializer(areas, many=True)
+    return Response(serializer.data)
+
 @api_view(['GET'])
 def get_area(request, pk):
     try:
@@ -86,6 +91,18 @@ def create_opcion(request):
     if serializer.is_valid():
         opcion = serializer.save(area_decision=area_decision)  # Save the linked instance
         return Response(OpcionDecisionSerializer(opcion).data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT', 'PATCH'])
+def update_opcion(request, pk):
+    opcion = get_object_or_404(OpcionDecision, pk=pk)
+
+    serializer = OpcionDecisionSerializer(instance=opcion, data=request.data, partial=(request.method == 'PATCH'))
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
