@@ -16,8 +16,8 @@ def get_areas(request):
 
 @api_view(['GET'])
 def get_important_areas(request):
-    areas = AreaComparacion.objects.filter(is_important=True)
-    serializer = AreaComparacionSerializer(areas, many=True)
+    areas = AreaDecision.objects.filter(is_important=True)
+    serializer = AreaDecisionSerializer(areas, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
