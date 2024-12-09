@@ -57,7 +57,7 @@ def delete_area(request, pk):
         return Response({'error': 'Area not found'}, status=status.HTTP_404_NOT_FOUND)
 
     area.delete()
-    return Response({'message': 'Area deleted successfully'},status=status.HTTP_204_NO_CONTENT)
+    return Response({'message': 'Area deleted successfully'}, status=status.HTTP_200_OK)
 
 # Opciones de decision
 
