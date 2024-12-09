@@ -17,6 +17,6 @@ urlpatterns = [
 
     path('api/comparaciones/', views.get_comparaciones, name='get_comparaciones'),
     path('api/comparacion/create/', views.create_comparacion, name='create_comparacion'),
-    path('api,comparacion/update/<int:pk>/', views.update_comparacion, name='update_comparacion'),
+    path('api/comparacion/update/<int:pk>/', views.update_comparacion, name='update_comparacion'),
     path('api/comparacion/delete/<int:pk>/', views.delete_comparacion, name='delete_comparacion'),
 ]

@@ -19,11 +19,9 @@ class AreaDecisionSerializer(serializers.ModelSerializer):
         return valor
 
     def create(self, validated_data):
-        # Map the `title` field from `area`
         title = validated_data.pop('title')
         validated_data['title'] = title
 
-        # Create the AreaDecision instance
         return AreaDecision.objects.create(**validated_data)
 
     def get_opciones(self, obj):
@@ -32,15 +30,14 @@ class AreaDecisionSerializer(serializers.ModelSerializer):
 
 class OpcionDecisionSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
-    descripcion = serializers.CharField(source='description')  # Maps `description` to `descripcion`
-    cod_area = serializers.ReadOnlyField(source='area_decision.id')  # Read-only, derived from AreaDecision
+    descripcion = serializers.CharField(source='description')
+    cod_area = serializers.ReadOnlyField(source='area_decision.id')
 
     class Meta:
         model = OpcionDecision
         fields = ['id', 'descripcion', 'cod_area']
 
     def create(self, validated_data):
-        # Map 'descripcion' back to 'description'
         description = validated_data.pop('description')
         area_decision = validated_data.get('area_decision')
 
