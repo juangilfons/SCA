@@ -71,10 +71,10 @@ def manage_related_area(request):
 
     if request.method == 'POST':
         area.related_areas.add(related_area)
-        return Response({'message': 'Related area added successfully.'}, status=status.HTTP_200_OK)
+        return Response({'message': 'Relationship created successfully.'}, status=status.HTTP_200_OK)
     elif request.method == 'DELETE':
         area.related_areas.remove(related_area)
-        return Response({'message': 'Related area removed successfully.'}, status=status.HTTP_200_OK)
+        return Response({'message': 'Relationship removed successfully.'}, status=status.HTTP_200_OK)
 
 # Opciones de decision
 
