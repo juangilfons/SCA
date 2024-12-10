@@ -6,12 +6,13 @@ class AreaDecisionSerializer(serializers.ModelSerializer):
     rotulo = serializers.CharField()
     area = serializers.CharField(source='title')
     description = serializers.CharField()
+    related_areas = serializers.StringRelatedField(many=True)
     is_important = serializers.BooleanField(required=False, default=False)
     opciones = serializers.SerializerMethodField()
 
     class Meta:
         model = AreaDecision
-        fields = ['id', 'rotulo', 'area', 'description', 'is_important', 'opciones']
+        fields = ['id', 'rotulo', 'area', 'description', 'related_areas', 'is_important', 'opciones']
 
     def validar_rotulo(self, valor):
         if len(valor) != 7:
