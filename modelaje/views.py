@@ -58,6 +58,24 @@ def delete_area(request, pk):
     area.delete()
     return Response({'message': 'Area deleted successfully'}, status=status.HTTP_200_OK)
 
+@api_view(['POST', 'DELETE'])
+def manage_related_area(request):
+    area_id = request.data.get('area_id')
+    related_area_id = request.data.get('related_area_id')
+
+    if not area_id or not related_area_id:
+        return Response({'error': 'Both area_id and related_area_id are required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    area = get_object_or_404(AreaDecision, pk=area_id)
+    related_area = get_object_or_404(AreaDecision, pk=related_area_id)
+
+    if request.method == 'POST':
+        area.related_areas.add(related_area)
+        return Response({'message': 'Related area added successfully.'}, status=status.HTTP_200_OK)
+    elif request.method == 'DELETE':
+        area.related_areas.remove(related_area)
+        return Response({'message': 'Related area removed successfully.'}, status=status.HTTP_200_OK)
+
 # Opciones de decision
 
 @api_view(['GET'])
