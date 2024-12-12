@@ -76,6 +76,28 @@ def manage_related_area(request):
         area.related_areas.remove(related_area)
         return Response({'message': 'Relationship removed successfully.'}, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+def get_relationships(request):
+    areas = AreaDecision.objects.all()
+    area_relationships = {}
+    for area in areas:
+        related_areas = area.related_areas.all()
+        area_relationships[area.title] = [related.title for related in related_areas]
+    processed_pairs = set()
+
+    relationships = []
+
+    for area, related_areas in area_relationships.items():
+        for related in related_areas:
+            pair_tuple = tuple(sorted([area, related]))
+            if pair_tuple not in processed_pairs:
+                pair = f"{pair_tuple[0]} - {pair_tuple[1]}"
+                relationships.append(pair)
+                processed_pairs.add(pair_tuple)
+
+    return Response({"vinculos": relationships})
+
+
 # Opciones de decision
 
 @api_view(['GET'])
@@ -167,4 +189,4 @@ def delete_comparacion(request, pk):
         return Response({'error': 'Area not found'}, status=status.HTTP_404_NOT_FOUND)
 
     comparacion.delete()
-    return Response({'message': 'Area deleted successfully'},status=status.HTTP_204_NO_CONTENT)
+    return Response({'message': 'Area deleted successfully'}, status=status.HTTP_204_NO_CONTENT)

@@ -8,7 +8,9 @@ urlpatterns = [
     path('api/area/create/', views.create_area, name='create_area'),
     path('api/area/update/<int:pk>/', views.update_area, name='update_area'),
     path('api/area/delete/<int:pk>/', views.delete_area, name='delete_area'),
+    path('api/areas/vinculos/', views.get_relationships, name='get_relationships'),
     path('api/areas/vinculo/', views.manage_related_area, name='manage_related_area'),
+
 
     path('api/opciones/', views.get_opciones, name='get_opciones'),
     path('api/opciones/<int:area_pk>/', views.get_opciones_de_area, name='get_opciones_area'),
