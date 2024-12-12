@@ -6,7 +6,7 @@ class AreaDecisionSerializer(serializers.ModelSerializer):
     rotulo = serializers.CharField()
     area = serializers.CharField(source='title')
     description = serializers.CharField()
-    related_areas = serializers.StringRelatedField(many=True)
+    related_areas = serializers.StringRelatedField(many=True, required=False)
     is_important = serializers.BooleanField(required=False, default=False)
     opciones = serializers.SerializerMethodField()
 
