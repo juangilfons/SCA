@@ -57,9 +57,24 @@ class AreaComparacionSerializer(serializers.ModelSerializer):
 
 class DecisionAlternativeSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
-    options = serializers.SerializerMethodField()
     hexa = serializers.CharField()
+    options = serializers.PrimaryKeyRelatedField(
+        queryset=OpcionDecision.objects.all(), many=True  # Makes 'options' writable
+    )
 
     class Meta:
         model = DecisionAlternative
         fields = ['id', 'options', 'hexa']
+
+    def get_options(self, obj):
+        options = obj.options.all()
+        return OpcionDecisionSerializer(options, many=True).data
+
+    def create(self, validated_data):
+        """
+        Override create method to handle Many-to-Many relationship for 'options'.
+        """
+        options = validated_data.pop('options')  # Extract options from the input
+        decision_alternative = DecisionAlternative.objects.create(**validated_data)
+        decision_alternative.options.set(options)  # Assign related options
+        return decision_alternative
