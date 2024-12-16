@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'modelaje.middlewares.CloseDBConnectionMiddleware'
 ]
 
 ROOT_URLCONF = 'SCA.urls'
