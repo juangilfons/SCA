@@ -82,19 +82,24 @@ WSGI_APPLICATION = 'SCA.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-import pymysql
-pymysql.install_as_MySQLdb()
+import dj_database_url
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'u882458043_sca',
-        'USER': 'u882458043_dev',                       # Usuario de la base de datos
-        'PASSWORD': 'Nojoda11',                # Contraseña del usuario
-        'HOST': 'srv1661.hstgr.io',        # IP o dominio del servidor remoto
-        'PORT': '3306',
-    }
+    'default': dj_database_url.config(
+        default='postgres://avnadmin:AVNS_kydTZmvBdOT6FsM5Bq6@csa-1234-sca-123.c.aivencloud.com:23497/defaultdb?sslmode=require'
+    )
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'u882458043_sca',
+#         'USER': 'u882458043_dev',                       # Usuario de la base de datos
+#         'PASSWORD': 'Nojoda11',                # Contraseña del usuario
+#         'HOST': 'srv1661.hstgr.io',        # IP o dominio del servidor remoto
+#         'PORT': '3306',
+#     }
+# }
 
 
 # Password validation
