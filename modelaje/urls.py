@@ -21,4 +21,7 @@ urlpatterns = [
     path('api/comparacion/create/', views.create_comparacion, name='create_comparacion'),
     path('api/comparacion/update/<int:pk>/', views.update_comparacion, name='update_comparacion'),
     path('api/comparacion/delete/<int:pk>/', views.delete_comparacion, name='delete_comparacion'),
+
+    path('api/alternativas/', views.get_alternativas, name='get_alternativas'),
+    path('api/alternativa/create/', views.create_alternativa, name='create_alternativa'),
 ]
