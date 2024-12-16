@@ -90,6 +90,9 @@ DATABASES = {
     )
 }
 
+# import pymysql
+# import sqlparse
+#
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
