@@ -57,7 +57,7 @@ class AreaComparacionSerializer(serializers.ModelSerializer):
 
 class DecisionAlternativeSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
-    options = serializers.SerializerMethodField(required=True)
+    options = serializers.SerializerMethodField()
     hexa = serializers.CharField()
 
     class Meta:
