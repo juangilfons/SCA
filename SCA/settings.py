@@ -86,8 +86,9 @@ import dj_database_url
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgres://avnadmin:AVNS_kydTZmvBdOT6FsM5Bq6@csa-1234-sca-123.c.aivencloud.com:23497/defaultdb?sslmode=require'
-    )
+        default='postgres://avnadmin:AVNS_kydTZmvBdOT6FsM5Bq6@csa-1234-sca-123.c.aivencloud.com:23497/defaultdb?sslmode=require',
+        conn_max_age=600
+    ),
 }
 
 # import pymysql
