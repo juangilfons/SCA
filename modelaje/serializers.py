@@ -49,7 +49,8 @@ class AreaComparacionSerializer(serializers.ModelSerializer):
     label = serializers.CharField(source='rotulo')
     comparisonArea = serializers.CharField(source='title')
     order = serializers.CharField()
+    symbol = serializers.CharField()
 
     class Meta:
         model = AreaComparacion
-        fields = ['id', 'label', 'comparisonArea', 'order']
+        fields = ['id', 'label', 'comparisonArea', 'order', 'symbol']

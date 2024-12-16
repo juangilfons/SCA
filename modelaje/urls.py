@@ -11,7 +11,6 @@ urlpatterns = [
     path('api/areas/vinculos/', views.get_relationships, name='get_relationships'),
     path('api/areas/vinculo/', views.manage_related_area, name='manage_related_area'),
 
-
     path('api/opciones/', views.get_opciones, name='get_opciones'),
     path('api/opciones/<int:area_pk>/', views.get_opciones_de_area, name='get_opciones_area'),
     path('api/opcion/create/', views.create_opcion, name='create_opcion'),
