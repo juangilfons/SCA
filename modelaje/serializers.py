@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import AreaDecision, OpcionDecision, AreaComparacion
+from .models import AreaDecision, OpcionDecision, AreaComparacion, DecisionAlternative
 
 class AreaDecisionSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
@@ -54,3 +54,12 @@ class AreaComparacionSerializer(serializers.ModelSerializer):
     class Meta:
         model = AreaComparacion
         fields = ['id', 'label', 'comparisonArea', 'order', 'symbol']
+
+class DecisionAlternativeSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField()
+    options = serializers.SerializerMethodField()
+    hexa = serializers.CharField()
+
+    class Meta:
+        model = DecisionAlternative
+        fields = ['id', 'options', 'hexa']
