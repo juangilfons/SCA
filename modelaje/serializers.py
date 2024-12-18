@@ -53,7 +53,7 @@ class AreaComparacionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AreaComparacion
-        fields = ['id', 'label', 'comparisonArea', 'order', 'symbol']
+        fields = ['id', 'label', 'comparisonArea', 'order', 'peso', 'symbol']
 
 class DecisionAlternativeSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
@@ -71,10 +71,7 @@ class DecisionAlternativeSerializer(serializers.ModelSerializer):
         return OpcionDecisionSerializer(options, many=True).data
 
     def create(self, validated_data):
-        """
-        Override create method to handle Many-to-Many relationship for 'options'.
-        """
-        options = validated_data.pop('options')  # Extract options from the input
+        options = validated_data.pop('options')
         decision_alternative = DecisionAlternative.objects.create(**validated_data)
-        decision_alternative.options.set(options)  # Assign related options
+        decision_alternative.options.set(options)
         return decision_alternative

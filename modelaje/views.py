@@ -195,6 +195,7 @@ def delete_comparacion(request, pk):
 def get_alternativas(request):
     alternativas = DecisionAlternative.objects.all()
     serializer = DecisionAlternativeSerializer(alternativas, many=True)
+
     return Response(serializer.data)
 
 @api_view(['POST'])
