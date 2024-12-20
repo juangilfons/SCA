@@ -206,3 +206,12 @@ def create_alternativa(request):
         return Response(DecisionAlternativeSerializer(instance).data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['DELETE'])
+def delete_alternativa(request, pk):
+    try:
+        alternativa = DecisionAlternative.objects.get(pk=pk)
+    except DecisionAlternative.DoesNotExist:
+        return Response({'error': 'Alternative not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    alternativa.delete()
+    return Response({'message': 'Alternative deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
