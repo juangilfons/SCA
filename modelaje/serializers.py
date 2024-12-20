@@ -50,10 +50,11 @@ class AreaComparacionSerializer(serializers.ModelSerializer):
     comparisonArea = serializers.CharField(source='title')
     order = serializers.CharField()
     symbol = serializers.CharField()
+    puntuacion_minima = serializers.IntegerField(required=False, source='min_value')
 
     class Meta:
         model = AreaComparacion
-        fields = ['id', 'label', 'comparisonArea', 'order', 'peso', 'symbol']
+        fields = ['id', 'label', 'comparisonArea', 'order', 'peso', 'symbol', 'puntuacion_minima']
 
 class DecisionAlternativeSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()

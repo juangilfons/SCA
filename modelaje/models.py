@@ -41,6 +41,7 @@ class AreaComparacion(models.Model):
     peso = models.IntegerField(default=1)
     order = models.IntegerField(default=0)
     symbol = models.CharField(max_length=1, default="*")
+    min_value = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
