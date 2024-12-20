@@ -24,5 +24,5 @@ urlpatterns = [
 
     path('api/alternativas/', views.get_alternativas, name='get_alternativas'),
     path('api/alternativa/create/', views.create_alternativa, name='create_alternativa'),
-    path('api/alternativa/delete/<int:pk>/', views.delete_alternativa, name='delete_alternativa'),
+    path('api/alternativa/delete/<int:hexa>/', views.delete_alternativa, name='delete_alternativa'),
 ]
