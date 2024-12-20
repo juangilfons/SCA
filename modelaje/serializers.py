@@ -78,11 +78,22 @@ class DecisionAlternativeSerializer(serializers.ModelSerializer):
         return decision_alternative
 
 class OpcionComparacionSerializer(serializers.ModelSerializer):
-    opcionId = serializers.PrimaryKeyRelatedField(source='option')
-    modeId = serializers.PrimaryKeyRelatedField(source='area_comparacion')
-    value = serializers.CharField()
+    opcionId = serializers.PrimaryKeyRelatedField(queryset=OpcionDecision.objects.all(), source='option')
+    modeId = serializers.PrimaryKeyRelatedField(queryset=AreaComparacion.objects.all(), source='area_comparacion')
+    value = serializers.IntegerField()
 
     class Meta:
         model = OpcionComparacion
         fields = ['opcionId', 'modeId', 'value']
+
+    def create(self, validated_data):
+        return [OpcionComparacion.objects.create(**item) for item in validated_data]
+
+    def validate(self, data):
+        if OpcionComparacion.objects.filter(
+                option=data['option'],
+                area_comparacion=data['area_comparacion']
+        ).exists():
+            raise serializers.ValidationError("This combination already exists.")
+        return data
 

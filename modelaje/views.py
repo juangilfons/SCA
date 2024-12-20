@@ -223,11 +223,10 @@ def get_opciones_comparacion(request):
     serializer = OpcionComparacionSerializer(opciones_comparacion, many=True)
     return Response(serializer.data)
 
-
 @api_view(['POST'])
 def create_opcion_comparacion(request):
     serializer = OpcionComparacionSerializer(data=request.data, many=True)
     if serializer.is_valid():
         cells = serializer.save()
-        return Response(OpcionComparacionSerializer(cells, many=True).data)
+        return Response(OpcionComparacionSerializer(cells, many=True).data, status=201)
     return Response(serializer.errors, status=400)
