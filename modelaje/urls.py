@@ -26,7 +26,7 @@ urlpatterns = [
     path('api/alternativa/create/', views.create_alternativa, name='create_alternativa'),
     path('api/alternativa/delete/<str:hexa>/', views.delete_alternativa, name='delete_alternativa'),
 
-    path('api/comparison-cells', views.get_opciones_comparacion, name='get_opciones_comparacion'),
+    path('api/comparison-cells/', views.get_opciones_comparacion, name='get_opciones_comparacion'),
     path('api/comparison-cells/bulk-create/', views.create_opcion_comparacion, name='create_opcion_comparacion'),
 
 ]
