@@ -4,8 +4,8 @@ from rest_framework.decorators import api_view
 
 from django.shortcuts import get_object_or_404
 
-from .models import AreaDecision, OpcionDecision, AreaComparacion, DecisionAlternative
-from .serializers import AreaDecisionSerializer, OpcionDecisionSerializer, AreaComparacionSerializer, DecisionAlternativeSerializer
+from .models import AreaDecision, OpcionDecision, AreaComparacion, DecisionAlternative, OpcionComparacion
+from .serializers import AreaDecisionSerializer, OpcionDecisionSerializer, AreaComparacionSerializer, DecisionAlternativeSerializer, OpcionComparacionSerializer
 
 @api_view(['GET'])
 def get_areas(request):
@@ -215,3 +215,19 @@ def delete_alternativa(request, hexa):
 
     alternativa.delete()
     return Response({'message': 'Alternative deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+def get_opciones_comparacion(request):
+    opciones_comparacion = OpcionComparacion.objects.all()
+    serializer = OpcionComparacionSerializer(opciones_comparacion, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def create_opcion_comparacion(request):
+    serializer = OpcionComparacionSerializer(data=request.data, many=True)
+    if serializer.is_valid():
+        cells = serializer.save()
+        return Response(OpcionComparacionSerializer(cells, many=True).data)
+    return Response(serializer.errors, status=400)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import AreaDecision, OpcionDecision, AreaComparacion, DecisionAlternative
+from .models import AreaDecision, OpcionDecision, AreaComparacion, DecisionAlternative, OpcionComparacion
 
 class AreaDecisionSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
@@ -76,3 +76,13 @@ class DecisionAlternativeSerializer(serializers.ModelSerializer):
         decision_alternative = DecisionAlternative.objects.create(**validated_data)
         decision_alternative.options.set(options)
         return decision_alternative
+
+class OpcionComparacionSerializer(serializers.ModelSerializer):
+    opcionId = serializers.PrimaryKeyRelatedField(source='option')
+    modeId = serializers.PrimaryKeyRelatedField(source='area_comparacion')
+    value = serializers.CharField()
+
+    class Meta:
+        model = OpcionComparacion
+        fields = ['opcionId', 'modeId', 'value']
+
