@@ -230,3 +230,41 @@ def create_opcion_comparacion(request):
         cells = serializer.save()
         return Response(OpcionComparacionSerializer(cells, many=True).data, status=201)
     return Response(serializer.errors, status=400)
+
+@api_view(['PUT'])
+def bulk_update_opciones_comparacion(request):
+    """
+    Bulk updates OpcionComparacion objects. Expects a list of objects with 'id' and fields to update.
+    """
+    updates = request.data  # Expecting a list of objects with 'id' and other fields to update.
+
+    if not isinstance(updates, list):
+        return Response({'error': 'Request data must be a list of objects.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    errors = []
+    updated_objects = []
+
+    for update in updates:
+        obj_id = update.get('id')
+        if not obj_id:
+            errors.append({'error': 'Each object must contain an "id".', 'data': update})
+            continue
+
+        try:
+            opcion_comparacion = OpcionComparacion.objects.get(pk=obj_id)
+        except OpcionComparacion.DoesNotExist:
+            errors.append({'error': f'Object with id {obj_id} does not exist.', 'id': obj_id})
+            continue
+
+        serializer = OpcionComparacionSerializer(opcion_comparacion, data=update, partial=True)
+        if serializer.is_valid():
+            updated_objects.append(serializer.save())
+        else:
+            errors.append({'error': serializer.errors, 'id': obj_id})
+
+    response_data = {
+        'updated': OpcionComparacionSerializer(updated_objects, many=True).data,
+        'errors': errors,
+    }
+
+    return Response(response_data, status=status.HTTP_200_OK if not errors else status.HTTP_400_BAD_REQUEST)
