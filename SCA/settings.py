@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['.vercel.app', 'localhost', '127.0.0.1']
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:4200",  # Origen del frontend local
+    "http://localhost:4200",
 ]
 
 
