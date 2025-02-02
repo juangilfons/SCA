@@ -233,10 +233,7 @@ def create_opcion_comparacion(request):
 
 @api_view(['PUT'])
 def bulk_update_opciones_comparacion(request):
-    """
-    Bulk updates OpcionComparacion objects. Expects a list of objects with 'id' and fields to update.
-    """
-    updates = request.data  # Expecting a list of objects with 'id' and other fields to update.
+    updates = request.data
 
     if not isinstance(updates, list):
         return Response({'error': 'Request data must be a list of objects.'}, status=status.HTTP_400_BAD_REQUEST)
