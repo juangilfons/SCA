@@ -208,6 +208,7 @@ def create_alternativa(request):
 
 @api_view(['DELETE'])
 def delete_alternativa(request, hexa):
+    hexa = '#' + hexa
     try:
         alternativa = DecisionAlternative.objects.get(hexa=hexa)
     except DecisionAlternative.DoesNotExist:
