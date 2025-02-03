@@ -66,8 +66,12 @@ def manage_related_area(request):
     if not area_id or not related_area_id:
         return Response({'error': 'Both area_id and related_area_id are required.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    area = get_object_or_404(AreaDecision, pk=area_id)
-    related_area = get_object_or_404(AreaDecision, pk=related_area_id)
+    try:
+        area = get_object_or_404(AreaDecision, pk=area_id)
+        related_area = get_object_or_404(AreaDecision, pk=related_area_id)
+    except AreaDecision.DoesNotExist:
+        return Response({'error': 'Area not found'}, status=status.HTTP_404_NOT_FOUND)
+
 
     if request.method == 'POST':
         area.related_areas.add(related_area)
