@@ -87,7 +87,9 @@ class OpcionComparacionSerializer(serializers.ModelSerializer):
         fields = ['opcionId', 'modeId', 'value']
 
     def create(self, validated_data):
-        return [OpcionComparacion.objects.create(**item) for item in validated_data]
+        if isinstance(validated_data, list):  # Si es una lista (many=True)
+            return [OpcionComparacion.objects.create(**item) for item in validated_data]
+        return OpcionComparacion.objects.create(**validated_data)
 
     def validate(self, data):
         if OpcionComparacion.objects.filter(
