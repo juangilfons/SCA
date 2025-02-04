@@ -247,22 +247,23 @@ def bulk_update_opciones_comparacion(request):
     updated_objects = []
 
     for update in updates:
-        obj_id = update.get('id')
-        if not obj_id:
+        mode_id = update.get('modeId')
+        opcion_id = update.get('opcionId')
+        if not mode_id or not opcion_id:
             errors.append({'error': 'Each object must contain an "id".', 'data': update})
             continue
 
         try:
-            opcion_comparacion = OpcionComparacion.objects.get(pk=obj_id)
+            opcion_comparacion = OpcionComparacion.objects.get(option_id=opcion_id, area_comparacion_id=mode_id)
         except OpcionComparacion.DoesNotExist:
-            errors.append({'error': f'Object with id {obj_id} does not exist.', 'id': obj_id})
+            errors.append({'error': f'Object does not exist.', 'mode_id': mode_id, 'opcion_id': opcion_id})
             continue
 
         serializer = OpcionComparacionSerializer(opcion_comparacion, data=update, partial=True)
         if serializer.is_valid():
             updated_objects.append(serializer.save())
         else:
-            errors.append({'error': serializer.errors, 'id': obj_id})
+            errors.append({'error': serializer.errors, 'mode_id': mode_id, 'opcion_id': opcion_id})
 
     response_data = {
         'updated': OpcionComparacionSerializer(updated_objects, many=True).data,
