@@ -83,20 +83,17 @@ def manage_related_area(request):
 @api_view(['GET'])
 def get_relationships(request):
     areas = AreaDecision.objects.all()
-    area_relationships = {}
-    for area in areas:
-        related_areas = area.related_areas.all()
-        area_relationships[area.title] = [related.title for related in related_areas]
     processed_pairs = set()
-
     relationships = []
 
-    for area, related_areas in area_relationships.items():
+    for area in areas:
+        related_areas = area.related_areas.all()
         for related in related_areas:
-            pair_tuple = tuple(sorted([area, related]))
+            pair_tuple = tuple(sorted([(area.id, area.title), (related.id, related.title)]))
+
             if pair_tuple not in processed_pairs:
-                pair = f"{pair_tuple[0]} - {pair_tuple[1]}"
-                relationships.append(pair)
+                pair_str = f"{pair_tuple[0][1]} - {pair_tuple[1][1]}"  # "area1 - area2"
+                relationships.append([pair_str, pair_tuple[0][0], pair_tuple[1][0]])  # ["area1 - area2", id1, id2]
                 processed_pairs.add(pair_tuple)
 
     return Response({"vinculos": relationships})
