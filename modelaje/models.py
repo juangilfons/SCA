@@ -27,6 +27,18 @@ class DecisionAlternative(models.Model):
     hexa = models.CharField(max_length=7, unique=True)
     options = models.ManyToManyField(OpcionDecision, related_name="alternatives")
 
+    @property
+    def values(self):
+        values = []
+        areas = AreaComparacion.objects.all()
+        for area in areas:
+            sum = 0
+            for option in self.options.all():
+                cell = OpcionComparacion.objects.get(area_comparacion=area.id, option=option)
+                sum += cell.value
+            values.append({"area": area.id, "value": sum})
+        return values
+
     def __str__(self):
         return "Alternative: " + self.hexa
 
@@ -56,4 +68,3 @@ class OpcionComparacion(models.Model):
 
     def __str__(self):
         return f"{self.option} - {self.area_comparacion}: {self.value}"
-
