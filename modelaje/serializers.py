@@ -59,13 +59,12 @@ class AreaComparacionSerializer(serializers.ModelSerializer):
 class DecisionAlternativeSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     hexa = serializers.CharField()
-    options = serializers.PrimaryKeyRelatedField(
-        queryset=OpcionDecision.objects.all(), many=True  # Makes 'options' writable
-    )
+    options = serializers.PrimaryKeyRelatedField(queryset=OpcionDecision.objects.all(), many=True)
+    values = serializers.ReadOnlyField()
 
     class Meta:
         model = DecisionAlternative
-        fields = ['id', 'options', 'hexa']
+        fields = ['id',  'hexa', 'options', 'values']
 
     def get_options(self, obj):
         options = obj.options.all()
