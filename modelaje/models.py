@@ -36,7 +36,7 @@ class DecisionAlternative(models.Model):
             for option in self.options.all():
                 cell = OpcionComparacion.objects.get(area_comparacion=area.id, option=option)
                 sum += cell.value
-            values.append({"area": area.id, "value": sum})
+            values.append({"area": area.id, "symbol": area.symbol, "value": sum})
         return values
 
     def __str__(self):
