@@ -271,6 +271,7 @@ def bulk_update_opciones_comparacion(request):
 
     return Response(response_data, status=status.HTTP_200_OK if not errors else status.HTTP_400_BAD_REQUEST)
 
+@api_view(['DELETE'])
 def reset_database(request):
     try:
         call_command('flush', '--noinput')  # Deletes all data but keeps migrations
