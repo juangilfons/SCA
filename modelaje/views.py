@@ -1,6 +1,8 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from django.http import JsonResponse
+from django.core.management import call_command
 
 from django.shortcuts import get_object_or_404
 
@@ -268,3 +270,10 @@ def bulk_update_opciones_comparacion(request):
     }
 
     return Response(response_data, status=status.HTTP_200_OK if not errors else status.HTTP_400_BAD_REQUEST)
+
+def reset_database(request):
+    try:
+        call_command('flush', '--noinput')  # Deletes all data but keeps migrations
+        return JsonResponse({'message': 'Database reset successful'}, status=200)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)

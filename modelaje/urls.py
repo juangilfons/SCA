@@ -29,4 +29,5 @@ urlpatterns = [
     path('api/comparison-cells/', views.get_opciones_comparacion, name='get_opciones_comparacion'),
     path('api/comparison-cells/bulk-create/', views.create_opcion_comparacion, name='create_opcion_comparacion'),
     path('api/comparison-cells/bulk-update/', views.bulk_update_opciones_comparacion, name='update_opcion_comparacion'),
+    path('reset-db/', views.reset_database, name='reset_database'),
 ]
